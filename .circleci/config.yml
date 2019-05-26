@@ -20,8 +20,9 @@ jobs:
       - run:
           name: "Build and push docker"
           command: |
+            cp Dockerfile.production Dockerfile
             docker build -t chatchaisi/node-exam:latest .
             docker build -t chatchaisi/node-exam:${CIRCLE_SHA1} .
             docker push chatchaisi/node-exam:latest
             docker push chatchaisi/node-exam:${CIRCLE_SHA1}
-      - run: echo DONE2
+      - run: echo DONE4
