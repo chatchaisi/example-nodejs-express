@@ -27,4 +27,16 @@ jobs:
             docker build -t chatchaisi/node-exam:${CIRCLE_SHA1} .
             docker push chatchaisi/node-exam:latest
             docker push chatchaisi/node-exam:${CIRCLE_SHA1}
-      - run: echo DONE4
+      - run:
+          name: "Deploy to rancher"
+          command: |
+            docker run --it \
+              -e CATTLE_ACCESS_KEY="$CATTLE_ACCESS_KEY" \
+              -e CATTLE_SECRET_KEY="$CATTLE_SECRET_KEY" \
+              -e CATTLE_URL="$CATTLE_URL" \
+              etlweather/gaucho upgrade $RANCHER_EXAMPLE_NODEJS \
+              --imageUuid 'docker:chatchaisi/node-exam:latest'\
+              --batch_size 3 --start_first \
+              --auto_complete --timeout 600 \
+              /
+      - run: echo DONE
