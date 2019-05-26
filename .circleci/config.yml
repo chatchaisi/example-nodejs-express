@@ -24,4 +24,4 @@ jobs:
             docker build -t chatchaisi/node-exam:${CIRCLE_SHA1} .
             docker push chatchaisi/node-exam:latest
             docker push chatchaisi/node-exam:${CIRCLE_SHA1}
-      - run: echo DONE
+      - run: echo DONE2
