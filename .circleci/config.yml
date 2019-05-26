@@ -16,4 +16,12 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: echo Done
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER-PASSWORD
+      - run:
+          name: "Build and push docker"
+          command: |
+            docker build -t chatchaisi/node-exam:latest .
+            docker build -t chatchaisi/node-exam:${CIRCLE_SHA1} .
+            docker push chatchaisi/node-exam:latest
+            docker push chatchaisi/node-exam:${CIRCLE_SHA1}
+      - run: echo DONE
